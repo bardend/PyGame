@@ -1,50 +1,52 @@
 import pygame
 import sys
-
 from boar import Settings,Boar
-
-SCREEN_SIZE = 800
-GRID_SIZE = 3
-CELL_SIZE = 40
-GRID_X = 10  # Posición X en la que comienza el crucigrama
-GRID_Y = 300  # Posición Y en la que comienza el crucigrama
-WHITE = (255, 255, 255)
-
+#from Queue import *
 class Sketcher():
-    def __init__(self, screen, boar, posx, posy, settings):
+    def __init__(self, screen, settings):
         self.screen = screen
-        self.boar = boar
-        self.posx = posx
-        self.posy = posy
+        self.vec_boar = []
         self.settings = settings
 
+    def add_boar(self, boar):
+        self.vec_boar.append(boar)
+
     def draw(self):
-
         font = pygame.font.Font(None, 50)
-        for i in range(self.settings.row):
-            for j in range(self.settings.col):
-                #print(i,j)
-                number = self.boar.get_boar()[i][j]
-                text = font.render(str(number), True, (0,0,0))
-                self.screen.blit(text, (self.posx + i * CELL_SIZE + CELL_SIZE // 2 - text.get_width() // 2, self.posy + j * CELL_SIZE + CELL_SIZE // 2 - text.get_height() // 2))
-
-#self.bg_color = (230, 230, 230)
+        for ele in self.vec_boar:
+            for i in range(self.settings.row):
+                for j in range(self.settings.col):
+                    number = ele.boar[i][j]
+                    text = font.render(str(number), True, (0,0,0))
+                    self.screen.blit(text, (ele.pos[0] + i * self.settings.cell_size + self.settings.cell_size // 2 - text.get_width() // 2, ele.pos[1] + j * self.settings.cell_size + self.settings.cell_size // 2 - text.get_height() // 2))
 
 def run_game():
     pygame.init()
     settings = Settings()
     screen = pygame.display.set_mode((settings.screen_width, settings.screen_height))
     pygame.display.set_caption("8_Puzzles")
-    my_boar = Boar(settings)
-    my_boar.fill_boar()
-    sketcher = Sketcher(screen, my_boar, GRID_X, GRID_Y, settings)
+    my_boar = Boar(settings.base, (10,300), settings)
+
+    sketcher = Sketcher(screen, settings)
+    sketcher.add_boar(my_boar)
+
+    xd = my_boar.gen_boar()
+    print(len(xd))
+
+    
+    for e in xd:
+        sketcher.add_boar(e)
 
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+                cnt+=1
+
         screen.fill(settings.bg_color)
         sketcher.draw()
         pygame.display.flip()
+
 run_game()

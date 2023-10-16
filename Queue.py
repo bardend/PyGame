@@ -29,13 +29,12 @@ class Queue():
         self.head = self.head.next
 
 
-
+"""
 q = Queue()
 q.push("Ricardo")
-q.push("Emanuel")
-q.push("Mika")
 q.push("RRRAAA")
 
 while q.isEmpty() == False:
     print(q.front())
     q.pop()
+"""
