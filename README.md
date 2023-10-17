@@ -13,3 +13,4 @@ git commit
 
 The background color is `#ffffff` for light mode and `#RRGGBB` for dark mode.
 
+gol `rgb(9, 105, 218)`	321
