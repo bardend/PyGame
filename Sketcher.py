@@ -14,7 +14,7 @@ class Sketcher():
         self.vec_boar.append(boar)
 
     def draw(self):
-        font = pygame.font.Font(None, 20)
+        font = pygame.font.Font(None, 30)
         for ele in self.vec_boar:
             for i in range(self.settings.row):
                 for j in range(self.settings.col):

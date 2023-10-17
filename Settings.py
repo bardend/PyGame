@@ -10,7 +10,7 @@ class Settings():
         self.screen_width = 1800
         self.screen_height = 1400
         self.bg_color = (0, 255, 255)
-        self.cell_size = 20
+        self.cell_size = 30
         numeros_disponibles = list(range(9))
         vec_num = random.sample(numeros_disponibles, self.row * self.col)
         self.base = [vec_num[i:i+self.row] for i in range(0,9,self.col)]
