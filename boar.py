@@ -21,19 +21,20 @@ class Settings():
         self.screen_width = 1800
         self.screen_height = 1400
         self.bg_color = (0, 255, 255)
-        self.cell_size = 40
+        self.cell_size = 20
         numeros_disponibles = list(range(9))
         vec_num = random.sample(numeros_disponibles, self.row * self.col)
         self.base = [vec_num[i:i+self.row] for i in range(0,9,self.col)]
 
 class Boar():
-    def __init__(self, boar, pos, settings):
+    def __init__(self, boar, pos, settings, deep):
         self.boar = boar
         self.pos = pos
         self.settings = settings
+        self.deep = deep
 
     def gen_boar(self):
-        movex = 160
+        movex = 250
         positions = next(((i, j) for i,row in enumerate(self.boar) for j,val in enumerate(row) if val == 0), None)
         vec_new_boar = []
         for i in range(0,4):
@@ -44,13 +45,12 @@ class Boar():
             cur_boar = swap(pre_boar, positions[0], positions[1], new_pos[0], new_pos[1])
             vec_new_boar.append(cur_boar)
         ### How many boars are there and generate a the pos of the new boars 
-        coor = (self.pos[0]+movex, self.pos[1] - (len(vec_new_boar)*140//2))
+        coor = (self.pos[0]+movex, self.pos[1] - (len(vec_new_boar)*20)*(3-self.deep)*(3-self.deep))
         ret = []
         for ind,e in enumerate(vec_new_boar):
-            new_coor = (coor[0], coor[1] + 140*ind)
-            ret.append(Boar(e, new_coor, self.settings))
+            new_coor = (coor[0], coor[1] + 20*ind*(4-self.deep)*(4-self.deep))
+            ret.append(Boar(e, new_coor, self.settings, self.deep+1))
+            print(new_coor)
                        
         return ret
 
-settings = Settings()
-my_boar = Boar(settings.base, (10,400), settings)

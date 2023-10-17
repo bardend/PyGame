@@ -12,14 +12,19 @@ class Sketcher():
     def add_boar(self, boar):
         self.vec_boar.append(boar)
 
-    def draw(self):
-        font = pygame.font.Font(None, 50)
+   def draw(self):
+        font = pygame.font.Font(None, 20)
         for ele in self.vec_boar:
             for i in range(self.settings.row):
                 for j in range(self.settings.col):
+                    pygame.draw.rect(self.screen, (0, 0, 0), (ele.pos[0] + j * self.settings.cell_size, ele.pos[1] + i * self.settings.cell_size, self.settings.cell_size, self.settings.cell_size), 1)
                     number = ele.boar[i][j]
-                    text = font.render(str(number), True, (0,0,0))
-                    self.screen.blit(text, (ele.pos[0] + i * self.settings.cell_size + self.settings.cell_size // 2 - text.get_width() // 2, ele.pos[1] + j * self.settings.cell_size + self.settings.cell_size // 2 - text.get_height() // 2))
+                    if number >0 :
+                        text = font.render(str(number), True, (0,0,0))
+                        self.screen.blit(text, (ele.pos[0] + i * self.settings.cell_size + self.settings.cell_size // 2 - text.get_width() // 2, ele.pos[1] + j * self.settings.cell_size + self.settings.cell_size // 2 - text.get_height() // 2))
+                    else :
+                        pygame.draw.rect(self.screen, (255, 0, 0), (ele.pos[0] + i * self.settings.cell_size, ele.pos[1] + j * self.settings.cell_size, self.settings.cell_size, self.settings.cell_size), 0)
+
 
 def run_game():
     on = 0
@@ -27,7 +32,7 @@ def run_game():
     settings = Settings()
     screen = pygame.display.set_mode((settings.screen_width, settings.screen_height))
     pygame.display.set_caption("8_Puzzles")
-    my_boar = Boar(settings.base, (10,300), settings)
+    my_boar = Boar(settings.base, (10,700), settings, 0)
     sketcher = Sketcher(screen, settings)
 
     q = Queue()
